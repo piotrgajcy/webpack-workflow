@@ -2,6 +2,8 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const autoprefixer = require('autoprefixer')
+const babelenv = require('babel-preset-env');
+
 
 
 // const appThemeName = 'WebpackSassTest';
@@ -20,7 +22,6 @@ module.exports = {
     path: path.resolve(__dirname, appThemeSrc + '/dist'),
     filename: '[name].bundle.js',   
   },
-  // devtool: "nosources-source-map",  
   module: {
     rules: [
       {
@@ -28,8 +29,8 @@ module.exports = {
         use: [{
           loader: 'babel-loader',
             options: {
-              // babelrc: path.join(process.cwd(), './babelrc'),
-              // presets: ['babel-preset-env']
+              // babelrc: true,
+              presets: [babelenv]
             }        
         }],
         exclude: /node_modules/
@@ -49,8 +50,6 @@ module.exports = {
             {
               loader: 'postcss-loader',
               options: {
-                ident: 'postcss',
-                // plugins: () => [autoprefixer({browsers: 'ie 10'})],
                 config: {
                   path: path.resolve(__dirname, './')              
                 },
@@ -64,7 +63,6 @@ module.exports = {
               }
             }
           ],
-          // publicPath: '../../',
         })
       }
     ]
