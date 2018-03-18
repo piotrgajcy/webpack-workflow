@@ -20,6 +20,9 @@ module.exports = {
     path: path.resolve(__dirname, `${appThemeSrc}/dist`),
     filename: '[name].bundle.js',
   },
+  devServer: {
+    contentBase: path.join(__dirname, `${appThemeSrc}/dist`),
+  },
   module: {
     rules: [
       {
