@@ -19,9 +19,15 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, `${appThemeSrc}/dist`),
     filename: '[name].bundle.js',
+    publicPath: 'http://localhost:8080/',
   },
   devServer: {
     contentBase: path.join(__dirname, `${appThemeSrc}/dist`),
+    hot: true,
+    inline: true,
+    host: 'localhost',
+    port: 8080,
+    headers: { 'Access-Control-Allow-Origin': '*' },
   },
   module: {
     rules: [
@@ -77,5 +83,6 @@ module.exports = {
       exclude: ['script.bundle.js', 'css.bundle.js'],
       noSources: true,
     }),
+    new webpack.HotModuleReplacementPlugin(),
   ],
 };
