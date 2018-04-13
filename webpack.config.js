@@ -3,17 +3,16 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const babelenv = require('babel-preset-env');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
-// const appThemeName = 'WebpackSassTest';
-const appThemeName = 'test1';
 
-// const appThemeSrc =  '../path/to/App_Themes/' + appThemeName;
-const appThemeSrc = `../WebpackWorkflowTest/WebpackWorkflowTest/App_Themes/${appThemeName}`;
+// const appThemeName = '_test1';
+// const appThemeSrc = `../path/to/App_Themes/${appThemeName}`;
 
 module.exports = {
   context: path.resolve(__dirname, './'),
   entry: {
-    script: [`${appThemeSrc}/src/scripts/script.js`,
+    script: ['./polyfill.js', `${appThemeSrc}/src/scripts/script.js`,
       `${appThemeSrc}/src/sass/Main.scss`],
   },
   output: {
@@ -21,22 +20,13 @@ module.exports = {
     filename: '[name].bundle.js',
     publicPath: 'http://localhost:8080/',
   },
-  devServer: {
-    contentBase: path.join(__dirname, `${appThemeSrc}/dist`),
-    hot: true,
-    inline: true,
-    host: 'localhost',
-    port: 8080,
-    headers: { 'Access-Control-Allow-Origin': '*' },
-  },
   module: {
     rules: [
       {
         test: /\.js$/,
         use: [{
           loader: 'babel-loader',
-          options: {
-            // babelrc: true,
+          options: {            
             presets: [babelenv],
           },
         }],
@@ -83,6 +73,8 @@ module.exports = {
       exclude: ['script.bundle.js', 'css.bundle.js'],
       noSources: true,
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    new UglifyJSPlugin()
+    // new webpack.HotModuleReplacementPlugin(),
+    // new webpack.NamedModulesPlugin(),
   ],
 };
